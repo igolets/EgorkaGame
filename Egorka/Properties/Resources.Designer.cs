@@ -75,26 +75,35 @@ namespace EgorkaGame.Egorka.Properties {
         ///OemMinus-Crimson
         ///Oemplus=Cyan
         ///Tab→DarkBlue
-        ///QЙDarkCyan
-        ///WЦDarkGoldenrod
-        ///EУDarkGray
-        ///RКDarkGreen
-        ///TЕDarkKhaki
-        ///YНDarkMagenta
-        ///UГDarkOliveGreen
-        ///IШDarkOrange
-        ///OЩDarkOrchid
-        ///PЗDarkRed
-        ///OemOpenBracketsХDarkSalmon
-        ///Oem6ЪDarkSeaGreen
+        ///QQDarkCyan
+        ///WWDarkGoldenrod
+        ///EEDarkGray
+        ///RRDarkGreen
+        ///TTDarkKhaki
+        ///YYDarkMagenta
+        ///UUDarkOliveGreen
+        ///IIDarkOrange
+        ///OODarkOrchid
+        ///PPDarkRed
+        ///OemOpenBrackets[DarkSalmon
+        ///Oem6]DarkSeaGreen
         ///Oem5\DarkSlateBlue
-        ///AФDarkSlateGray
-        ///SЫDarkTurquoise
-        ///DВDarkVi [rest of string was truncated]&quot;;.
+        ///AADarkSlateGray
+        ///SSDarkTurquoise
+        ///DDDarkVi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string keys {
             get {
                 return ResourceManager.GetString("keys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to test.
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }
