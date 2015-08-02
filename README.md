@@ -6,7 +6,7 @@ Features
 * Blocks mouse events
 * Blocks simple keys that can close game or switch task (Use Alt-F4 to exit)
 * Changes screen color on key down
-* Displays key char on key down (Localizable! EN and RU are supported)
+* Displays key char on key down (**Localizable!** EN and RU are supported)
 * Plays a tone (euivalents to piano keys #25 and higher)
 
 Requirements
