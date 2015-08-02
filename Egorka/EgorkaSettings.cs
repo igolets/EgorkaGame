@@ -13,7 +13,16 @@ namespace EgorkaGame.Egorka
         {
             get
             {
-                return _instance ?? (_instance = (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings"));
+                if (_instance == null)
+                {
+                    lock (Locker)
+                    {
+                        if (_instance == null)
+                            _instance = (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings");
+                    }
+                }
+
+                return _instance;
             }
         }
 
@@ -21,7 +30,8 @@ namespace EgorkaGame.Egorka
 
         #region Fields
 
-        private static EgorkaSettings _instance;
+        private static volatile EgorkaSettings _instance;
+        private static readonly object Locker = new object();
 
         #endregion
 
