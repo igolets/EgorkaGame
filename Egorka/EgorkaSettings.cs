@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Globalization;
 
 namespace EgorkaGame.Egorka
@@ -13,18 +14,8 @@ namespace EgorkaGame.Egorka
         {
             get
             {
-                if (_instance == null)
-                {
-                    lock (Locker)
-                    {
-                        if (_instance == null)
-                        {
-                            _instance = (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings");
-                        }
-                    }
-                }
-
-                return _instance;
+                // read http://csharpindepth.com/articles/general/singleton.aspx for more info
+                return Lazy.Value;
             }
         }
 
@@ -32,8 +23,7 @@ namespace EgorkaGame.Egorka
 
         #region Fields
 
-        private static volatile EgorkaSettings _instance;
-        private static readonly object Locker = new object();
+        private static readonly Lazy<EgorkaSettings> Lazy = new Lazy<EgorkaSettings>(() => new EgorkaSettings());
 
         #endregion
 
