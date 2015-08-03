@@ -18,7 +18,9 @@ namespace EgorkaGame.Egorka
                     lock (Locker)
                     {
                         if (_instance == null)
+                        {
                             _instance = (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings");
+                        }
                     }
                 }
 
@@ -45,6 +47,8 @@ namespace EgorkaGame.Egorka
 
         #endregion
 
+        #region Public properties
+        
         [ConfigurationProperty("culture")]
         public CultureInfo CultureInfo
         {
@@ -57,5 +61,6 @@ namespace EgorkaGame.Egorka
             }
         }
 
+        #endregion
     }
 }
