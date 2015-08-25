@@ -53,6 +53,11 @@ namespace EgorkaGame.Egorka
             {
                 return true;
             }
+            // заблокировать Alt-Esc
+            if (keyCode == Keys.Escape && alt)
+            {
+                return true;
+            }
 
             // заблокировать Ctr-Esc
             if (keyCode == Keys.Escape && control)

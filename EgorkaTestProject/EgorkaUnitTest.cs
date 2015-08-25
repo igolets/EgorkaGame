@@ -137,7 +137,7 @@ namespace EgorkaGame.EgorkaTestProject
 
             controller.IsShouldSupressKey(Keys.Escape, true, true).ShouldBe(true);
             controller.IsShouldSupressKey(Keys.Escape, false, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Escape, true, false).ShouldBe(false);
+            controller.IsShouldSupressKey(Keys.Escape, true, false).ShouldBe(true);
             controller.IsShouldSupressKey(Keys.Escape, false, false).ShouldBe(false);
         }
 
