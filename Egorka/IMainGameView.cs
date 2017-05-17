@@ -21,6 +21,8 @@ namespace EgorkaGame.Egorka
 
         void PlaySound(int beepFrequency, int beepDurationInMs);
 
+        void ReadAloud(char character);
+
         void SubscribeGlobalEvents();
 
     }

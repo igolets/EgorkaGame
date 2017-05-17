@@ -101,7 +101,14 @@ namespace EgorkaGame.Egorka
             {
                 _view.ScreenColor = _chars[keyCode].Color;
                 _view.DisplayText = _chars[keyCode].Character.ToString();
-                _view.PlaySound(_chars[keyCode].BeepFrequency, BeepDurationInMs);
+                if (EgorkaSettings.Instance.IsSpeechEnabled)
+                {
+                    _view.ReadAloud(_chars[keyCode].Character);
+                }
+                else
+                {
+                    _view.PlaySound(_chars[keyCode].BeepFrequency, BeepDurationInMs);
+                }
             }
         }
 

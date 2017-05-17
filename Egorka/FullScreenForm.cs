@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
+using System.Speech.Synthesis;
 using System.Threading;
 using System.Windows.Forms;
 using EgorkaGame.Egorka.Properties;
@@ -29,6 +31,11 @@ namespace EgorkaGame.Egorka
         {
             InitializeComponent();
             lblLetter.Text = string.Empty;
+
+            _synthesizer = new SpeechSynthesizer();
+            _synthesizer.SelectVoiceByHints(VoiceGender.NotSet, VoiceAge.Adult, 0, EgorkaSettings.Instance.CultureInfo);
+            _synthesizer.Volume = EgorkaSettings.Instance.SpeechVolume;  // 0...100
+            _synthesizer.Rate = EgorkaSettings.Instance.SpeechRate;     // -10...10
         }
 
         #endregion Constructors
@@ -80,6 +87,11 @@ namespace EgorkaGame.Egorka
 
             _controller = new MainGameController(this);
             _controller.LoadKeysResources(Resources.keys);
+
+            if (EgorkaSettings.Instance.IsSpeechEnabled && !string.IsNullOrEmpty(EgorkaSettings.Instance.SpeechIntro))
+            {
+                _synthesizer.Speak(EgorkaSettings.Instance.SpeechIntro);
+            }
         }
 
         /// <summary>
@@ -107,6 +119,11 @@ namespace EgorkaGame.Egorka
                 }
             });
             soundTask.Start();
+        }
+
+        void IMainGameView.ReadAloud(char character)
+        {
+            _synthesizer.SpeakAsync(character.ToString());
         }
 
         /// <summary>
@@ -287,6 +304,7 @@ namespace EgorkaGame.Egorka
 
         private MainGameController _controller;
         private IKeyboardMouseEvents _events;
+        private readonly SpeechSynthesizer _synthesizer;
 
         #endregion Fields
     }

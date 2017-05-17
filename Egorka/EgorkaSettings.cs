@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace EgorkaGame.Egorka
 {
-    public class EgorkaSettings : ConfigurationSection
+    public class EgorkaSettings : ConfigurationSection, IEgorkaSettings
     {
         #region Statics
 
@@ -23,7 +23,7 @@ namespace EgorkaGame.Egorka
 
         #region Fields
 
-        private static readonly Lazy<EgorkaSettings> Lazy = new Lazy<EgorkaSettings>(() => new EgorkaSettings());
+        private static readonly Lazy<EgorkaSettings> Lazy = new Lazy<EgorkaSettings>(() => (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings"));
 
         #endregion
 
@@ -48,6 +48,42 @@ namespace EgorkaGame.Egorka
             }
             set
             {
+            }
+        }
+
+        [ConfigurationProperty("IsSpeechEnabled")]
+        public  bool IsSpeechEnabled
+        {
+            get
+            {
+                return (bool)this["IsSpeechEnabled"];
+            }
+        }
+
+        [ConfigurationProperty("SpeechVolume")]
+        public int SpeechVolume
+        {
+            get
+            {
+                return (int)this["SpeechVolume"];
+            }
+        }
+
+        [ConfigurationProperty("SpeechRate")]
+        public int SpeechRate
+        {
+            get
+            {
+                return (int)this["SpeechRate"];
+            }
+        }
+
+        [ConfigurationProperty("SpeechIntro")]
+        public string SpeechIntro
+        {
+            get
+            {
+                return (string)this["SpeechIntro"];
             }
         }
 
