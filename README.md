@@ -21,3 +21,6 @@
 * [Moq](https://github.com/Moq/moq4)
 * [MouseKeyHook](https://github.com/gmamaladze/globalmousekeyhook)
 * [Shouldly](https://github.com/shouldly/shouldly)
+
+## Author
+Ilya Golets (ilya@golets.ru)
