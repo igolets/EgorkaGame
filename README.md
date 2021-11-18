@@ -18,6 +18,6 @@
 
 ## Uses third-party tools
 
-* [Moq] (https://github.com/Moq/moq4)
-* [MouseKeyHook] (https://github.com/gmamaladze/globalmousekeyhook)
-* [Shouldly] (https://github.com/shouldly/shouldly)
+* [Moq](https://github.com/Moq/moq4)
+* [MouseKeyHook](https://github.com/gmamaladze/globalmousekeyhook)
+* [Shouldly](https://github.com/shouldly/shouldly)
