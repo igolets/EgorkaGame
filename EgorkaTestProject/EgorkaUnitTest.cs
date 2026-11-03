@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 using EgorkaGame.Egorka;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -173,3 +173,4 @@ namespace EgorkaGame.EgorkaTestProject
         #endregion
     }
 }
+

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace EgorkaGame.Egorka
 {
@@ -18,7 +21,7 @@ namespace EgorkaGame.Egorka
 
         #region Fields
 
-        private static readonly Lazy<EgorkaSettings> Lazy = new Lazy<EgorkaSettings>(() => (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings"));
+        private static readonly Lazy<EgorkaSettings> Lazy = new Lazy<EgorkaSettings>(Load);
 
         #endregion
 
@@ -31,6 +34,49 @@ namespace EgorkaGame.Egorka
         }
 
         #endregion
+
+        #region Private methods
+
+        private static EgorkaSettings Load()
+        {
+            var section = (EgorkaSettings)ConfigurationManager.GetSection("egorkaSettings");
+            if (section != null)
+            {
+                return section;
+            }
+
+            // Test runners (MSTest v2 / vstest) execute in-proc, so ConfigurationManager
+            // resolves against the runner's own config and this section is absent there.
+            // Fall back to the config files deployed next to this assembly.
+            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (directory == null)
+            {
+                return null;
+            }
+
+            foreach (var configFile in Directory
+                .GetFiles(directory, "*.config")
+                .OrderByDescending(f => f.EndsWith(".dll.config", StringComparison.OrdinalIgnoreCase)))
+            {
+                try
+                {
+                    var map = new ExeConfigurationFileMap { ExeConfigFilename = configFile };
+                    var config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+                    var candidate = (EgorkaSettings)config.GetSection("egorkaSettings");
+                    if (candidate != null)
+                    {
+                        return candidate;
+                    }
+                }
+                catch (ConfigurationErrorsException)
+                {
+                }
+            }
+
+            return null;
+        }
+
+        #endregion Private methods
 
         #region Public properties
         
