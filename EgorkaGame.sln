@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Version 18
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildDictionary", "BuildDictionary\BuildDictionary.csproj", "{D98607B6-B9DF-4B2D-8D6B-470FFEC332DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Egorka", "Egorka\Egorka.csproj", "{7B362EFC-21BE-4004-9EC0-8EE93EEA5624}"

@@ -6,16 +6,15 @@ Windows-only WinForms baby game targeting .NET Framework 4.8. `LangVersion` is p
 
 Three projects:
 - `Egorka/` — the app. MVP: `FullScreenForm` (view; global hooks via MouseKeyHook) + `MainGameController` (all testable logic goes here) + `EgorkaSettings` (singleton `ConfigurationSection` read from `App.config`, key `egorkaSettings`; falls back to scanning configs next to the assembly when the section is absent — this is what makes it work under in-proc test runners).
-- `EgorkaTestProject/` — **MSTest v2** 4.5.2 (NuGet `MSTest.TestFramework` + `MSTest.TestAdapter`; runs under `vstest.console` via the adapter deployed next to the test dll), Moq 4.21, Shouldly 4.3.
+- `EgorkaTestProject/` — **MSTest v2** 4.5.2 (NuGet `MSTest.TestFramework` + `MSTest.TestAdapter` + `MSTest.Analyzers`; runs under `vstest.console` via the adapter deployed next to the test dll), Moq 4.21, Shouldly 4.3.
 - `BuildDictionary/` — standalone WinForms key-logging tool used to generate the key dictionaries; not part of the game.
 
-Packages use legacy `packages.config` + `packages/` folder (gitignored). Restore before building — the old `.nuget/NuGet.exe` bootstrap has been removed, so use a modern nuget.exe. Note: `nuget restore` skips transitive dependencies for packages.config, so all dependency packages (Castle.Core, DiffEngine, etc.) are listed explicitly in the packages.config files; if you bump a version, check its nuspec dependencies and add them too:
+Packages are wired as **PackageReference** (`RestoreProjectStyle` set in both csproj since these are non-SDK style projects). Restore with MSBuild, then build:
 
 ## Build & test (verified)
 
 ```powershell
-Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $env:TEMP\nuget.exe
-& $env:TEMP\nuget.exe restore EgorkaGame.sln
+& "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" EgorkaGame.sln /t:Restore /p:Configuration=Debug /v:m
 ```
 
 Build with VS MSBuild (`dotnet build` works on a single csproj, but MSBuild is canonical):

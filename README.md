@@ -21,6 +21,7 @@
 * [Moq](https://github.com/Moq/moq4)
 * [MouseKeyHook](https://github.com/gmamaladze/globalmousekeyhook)
 * [Shouldly](https://github.com/shouldly/shouldly)
+* [MSTest v2](https://github.com/microsoft/testfx)
 
 ## Author
 Ilya Golets (ilya@golets.ru)
