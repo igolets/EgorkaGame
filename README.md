@@ -11,7 +11,7 @@
 
 ## Requirements
 
-* .Net 4.5 or higher (could be re-compiled to lower versions if needed)
+* .Net 4.8 or higher (could be re-compiled to lower versions if needed)
 * Keyboard
 * Monitor of any resolution
 * (Optional) speakers

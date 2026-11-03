@@ -2,16 +2,16 @@
 
 ## Overview
 
-Windows-only WinForms baby game targeting .NET Framework 4.8 (README says 4.5 — stale; csproj is truth). No LangVersion is set, so classic-project defaults apply: **C# 7.3 max** — C# 8+ features (nullable ref types, switch expressions, ranges) will not compile.
+Windows-only WinForms baby game targeting .NET Framework 4.8. `LangVersion` is pinned to **7.3** in every csproj — C# 8+ features (nullable ref types, switch expressions, ranges) will not compile.
 
 Three projects:
-- `Egorka/` — the app. MVP: `FullScreenForm` (view; global hooks via MouseKeyHook) + `MainGameController` (all testable logic goes here) + `EgorkaSettings` (singleton `ConfigurationSection` read from `App.config`, key `egorkaSettings`).
-- `EgorkaTestProject/` — **MSTest v1** (`[TestClass]` via `Microsoft.VisualStudio.QualityTools.UnitTestFramework`, not MSTest v2/xUnit), Moq 4.2, Shouldly 2.5.
+- `Egorka/` — the app. MVP: `FullScreenForm` (view; global hooks via MouseKeyHook) + `MainGameController` (all testable logic goes here) + `EgorkaSettings` (singleton `ConfigurationSection` read from `App.config`, key `egorkaSettings`; falls back to scanning configs next to the assembly when the section is absent — this is what makes it work under in-proc test runners).
+- `EgorkaTestProject/` — **MSTest v2** 4.5.2 (NuGet `MSTest.TestFramework` + `MSTest.TestAdapter`; runs under `vstest.console` via the adapter deployed next to the test dll), Moq 4.21, Shouldly 4.3.
 - `BuildDictionary/` — standalone WinForms key-logging tool used to generate the key dictionaries; not part of the game.
 
-## Build & test (verified)
+Packages use legacy `packages.config` + `packages/` folder (gitignored). Restore before building — the old `.nuget/NuGet.exe` bootstrap has been removed, so use a modern nuget.exe. Note: `nuget restore` skips transitive dependencies for packages.config, so all dependency packages (Castle.Core, DiffEngine, etc.) are listed explicitly in the packages.config files; if you bump a version, check its nuspec dependencies and add them too:
 
-The bundled `.nuget/NuGet.exe` is v2.8 (2014) and **cannot reach nuget.org** (TLS failure). `packages/` is gitignored, so restore with a modern nuget.exe before building:
+## Build & test (verified)
 
 ```powershell
 Invoke-WebRequest https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile $env:TEMP\nuget.exe
@@ -24,15 +24,15 @@ Build with VS MSBuild (`dotnet build` works on a single csproj, but MSBuild is c
 & "C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\MSBuild.exe" EgorkaGame.sln /p:Configuration=Debug /v:m
 ```
 
-Run tests with `vstest.console.exe` (`dotnet test` does not run MSTest v1):
+Run tests with `vstest.console.exe` (the MSTest v2 adapter is deployed next to the test dll by the imported `MSTest.TestAdapter` props/targets; `dotnet test` is not wired up for this solution):
 
 ```powershell
 & "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" EgorkaTestProject\bin\Debug\EgorkaTestProject.dll
 ```
 
-## Known failing tests
+## Tests
 
-`ProcessKeyTest` and `CalculateFrequencyTest` fail with NullReferenceException (8/10 pass). Cause: `EgorkaTestProject/app.config` defines no `egorkaSettings` section, so `EgorkaSettings.Instance` (`ConfigurationManager.GetSection`) returns null and `MainGameController.ProcessKey` NREs. Fix: copy the `<configSections>` + `<egorkaSettings>` block from `Egorka/App.config` into the test app.config.
+All 10 tests pass. `EgorkaTestProject/app.config` carries its own `egorkaSettings` section (`IsSpeechEnabled="false"` so tests exercise the beep path). MSTest v2 runs tests **in-proc** inside vstest.console, so `ConfigurationManager` sees the runner's config, not the test project's — that is why `EgorkaSettings.Load` has the scan-fallback. Don't remove it.
 
 ## Localization
 
