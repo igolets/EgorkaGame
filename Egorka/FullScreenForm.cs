@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.Speech.Synthesis;
 using System.Threading;
 using System.Windows.Forms;
@@ -46,26 +45,14 @@ namespace EgorkaGame.Egorka
 
         public Color ScreenColor
         {
-            get
-            {
-                return BackColor;
-            }
-            set
-            {
-                BackColor = value;
-            }
+            get => BackColor;
+            set => BackColor = value;
         }
 
         public string DisplayText
         {
-            get
-            {
-                return lblLetter.Text;
-            }
-            set
-            {
-                lblLetter.Text = value;
-            }
+            get => lblLetter.Text;
+            set => lblLetter.Text = value;
         }
 
         #endregion IMainGameView implementation
@@ -109,6 +96,9 @@ namespace EgorkaGame.Egorka
 
         #region IMainGameView implementation
 
+        bool IMainGameView.IsVoiceInProgress => _prompt != null && !_prompt.IsCompleted;
+
+
         void IMainGameView.PlaySound(int beepFrequency, int beepDurationInMs)
         {
             var soundTask = new Thread(() =>
@@ -123,11 +113,11 @@ namespace EgorkaGame.Egorka
 
         void IMainGameView.ReadAloud(char character)
         {
-            _synthesizer.SpeakAsync(character.ToString());
+            _prompt = _synthesizer.SpeakAsync(character.ToString());
         }
 
         /// <summary>
-        ///     Re-Subscribes to all enevts.
+        ///     Re-Subscribes to all events.
         /// </summary>
         void IMainGameView.SubscribeGlobalEvents()
         {
@@ -158,7 +148,7 @@ namespace EgorkaGame.Egorka
 
             _events.MouseWheelExt += HookManager_MouseWheelExt;
 
-            _events.MouseDownExt += HookManager_SupressMouse;
+            _events.MouseDownExt += HookManager_SuppressMouse;
         }
 
         /// <summary>
@@ -182,7 +172,7 @@ namespace EgorkaGame.Egorka
 
             _events.MouseWheelExt -= HookManager_MouseWheelExt;
 
-            _events.MouseDownExt -= HookManager_SupressMouse;
+            _events.MouseDownExt -= HookManager_SuppressMouse;
 
             _events.Dispose();
             _events = null;
@@ -193,16 +183,16 @@ namespace EgorkaGame.Egorka
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
-        private void HookManager_SupressMouse(object sender, MouseEventExtArgs e)
+        private void HookManager_SuppressMouse(object sender, MouseEventExtArgs e)
         {
-            if (_controller.IsShouldSupressMouse(e.Button))
+            if (_controller.IsShouldSuppressMouse(e.Button))
             {
-                Log(string.Format("MouseDown \t\t {0} Suppressed\n", e.Button));
+                Log($"MouseDown \t\t {e.Button} Suppressed\n");
                 e.Handled = true;
                 return;
             }
 
-            Log(string.Format("MouseDown \t\t {0}\n", e.Button));
+            Log($"MouseDown \t\t {e.Button}\n");
         }
 
         /// <summary>
@@ -212,9 +202,9 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="KeyEventArgs" /> instance containing the event data.</param>
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyDown  \t\t {0}\n", e.KeyCode));
+            Log($"KeyDown  \t\t {e.KeyCode}\n");
 
-            if (_controller.IsShouldSupressKey(e.KeyCode, e.Alt, e.Control))
+            if (_controller.IsShouldSuppressKey(e.KeyCode, e.Alt, e.Control))
             {
                 e.Handled = true;
                 return;
@@ -230,7 +220,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="KeyEventArgs" /> instance containing the event data.</param>
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
+            Log($"KeyUp  \t\t {e.KeyCode}\n");
         }
 
         /// <summary>
@@ -240,7 +230,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="KeyPressEventArgs" /> instance containing the event data.</param>
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));
+            Log($"KeyPress \t\t {e.KeyChar}\n");
         }
 
         /// <summary>
@@ -259,7 +249,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="MouseEventArgs" /> instance containing the event data.</param>
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseUp \t\t {0}\n", e.Button));
+            Log($"MouseUp \t\t {e.Button}\n");
         }
 
         /// <summary>
@@ -269,7 +259,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="MouseEventArgs" /> instance containing the event data.</param>
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseClick \t\t {0}\n", e.Button));
+            Log($"MouseClick \t\t {e.Button}\n");
         }
 
         /// <summary>
@@ -279,7 +269,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The <see cref="MouseEventArgs" /> instance containing the event data.</param>
         private void OnMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseDoubleClick \t\t {0}\n", e.Button));
+            Log($"MouseDoubleClick \t\t {e.Button}\n");
         }
 
         /// <summary>
@@ -289,7 +279,7 @@ namespace EgorkaGame.Egorka
         /// <param name="e">The e.</param>
         private void HookManager_MouseWheelExt(object sender, MouseEventExtArgs e)
         {
-            if (_controller.IsShouldSupressMouseWheel())
+            if (_controller.IsShouldSuppressMouseWheel())
             {
                 Log("Mouse Wheel Move Suppressed.\n");
                 e.Handled = true;
@@ -305,6 +295,7 @@ namespace EgorkaGame.Egorka
         private MainGameController _controller;
         private IKeyboardMouseEvents _events;
         private readonly SpeechSynthesizer _synthesizer;
+        private Prompt _prompt;
 
         #endregion Fields
     }

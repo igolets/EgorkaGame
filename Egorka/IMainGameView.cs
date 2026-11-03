@@ -19,11 +19,15 @@ namespace EgorkaGame.Egorka
             set;
         }
 
+        bool IsVoiceInProgress
+        {
+            get;
+        }
+
         void PlaySound(int beepFrequency, int beepDurationInMs);
 
         void ReadAloud(char character);
 
         void SubscribeGlobalEvents();
-
     }
 }

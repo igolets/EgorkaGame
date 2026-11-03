@@ -29,19 +29,13 @@ namespace EgorkaGame.Egorka
 
         #region Public properties
 
-        public Dictionary<Keys, CharData> Chars
-        {
-            get
-            {
-                return _chars;
-            }
-        }
+        public Dictionary<Keys, CharData> Chars => _chars;
 
         #endregion
 
         #region Public methods
 
-        public bool IsShouldSupressKey(Keys keyCode, bool alt, bool control)
+        public bool IsShouldSuppressKey(Keys keyCode, bool alt, bool control)
         {
             // заблокировать кнопку Windows
             if (keyCode == Keys.LWin || keyCode == Keys.RWin)
@@ -67,12 +61,12 @@ namespace EgorkaGame.Egorka
             return false;
         }
 
-        public bool IsShouldSupressMouse(MouseButtons button)
+        public bool IsShouldSuppressMouse(MouseButtons button)
         {
             return button == MouseButtons.Right;
         }
 
-        public bool IsShouldSupressMouseWheel()
+        public bool IsShouldSuppressMouseWheel()
         {
             return true;
         }
@@ -97,6 +91,10 @@ namespace EgorkaGame.Egorka
 
         public void ProcessKey(Keys keyCode)
         {
+            if (_view.IsVoiceInProgress)
+            {
+                return;
+            }
             if (_chars.Keys.Contains(keyCode))
             {
                 _view.ScreenColor = _chars[keyCode].Color;

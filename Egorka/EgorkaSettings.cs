@@ -10,14 +10,9 @@ namespace EgorkaGame.Egorka
 
         #region Properties
 
-        public static EgorkaSettings Instance
-        {
-            get
-            {
-                // read http://csharpindepth.com/articles/general/singleton.aspx for more info
-                return Lazy.Value;
-            }
-        }
+        public static EgorkaSettings Instance =>
+            // read http://csharpindepth.com/articles/general/singleton.aspx for more info
+            Lazy.Value;
 
         #endregion
 
@@ -42,50 +37,23 @@ namespace EgorkaGame.Egorka
         [ConfigurationProperty("culture")]
         public CultureInfo CultureInfo
         {
-            get
-            {
-                return (CultureInfo)this["culture"];
-            }
+            get => (CultureInfo)this["culture"];
             set
             {
             }
         }
 
         [ConfigurationProperty("IsSpeechEnabled")]
-        public  bool IsSpeechEnabled
-        {
-            get
-            {
-                return (bool)this["IsSpeechEnabled"];
-            }
-        }
+        public  bool IsSpeechEnabled => (bool)this["IsSpeechEnabled"];
 
         [ConfigurationProperty("SpeechVolume")]
-        public int SpeechVolume
-        {
-            get
-            {
-                return (int)this["SpeechVolume"];
-            }
-        }
+        public int SpeechVolume => (int)this["SpeechVolume"];
 
         [ConfigurationProperty("SpeechRate")]
-        public int SpeechRate
-        {
-            get
-            {
-                return (int)this["SpeechRate"];
-            }
-        }
+        public int SpeechRate => (int)this["SpeechRate"];
 
         [ConfigurationProperty("SpeechIntro")]
-        public string SpeechIntro
-        {
-            get
-            {
-                return (string)this["SpeechIntro"];
-            }
-        }
+        public string SpeechIntro => (string)this["SpeechIntro"];
 
         #endregion
     }

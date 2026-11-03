@@ -30,7 +30,7 @@ namespace EgorkaGame.BuildDictionary
             var character = e.KeyChar.ToString().ToUpper()[0];
             _chars[_keyCode] = character;
             lblDicSize.Text = _chars.Count.ToString();
-            lblLastPair.Text = String.Format("{0} - {1}", _keyCode, character);
+            lblLastPair.Text = $"{_keyCode} - {character}";
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace EgorkaGame.BuildDictionary
         #region Fields
 
         private Keys _keyCode;
-        private readonly Dictionary<Keys, Char> _chars = new Dictionary<Keys, char>();
+        private readonly Dictionary<Keys, char> _chars = new Dictionary<Keys, char>();
 
         #endregion Fields
     }

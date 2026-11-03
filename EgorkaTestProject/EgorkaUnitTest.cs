@@ -106,68 +106,68 @@ namespace EgorkaGame.EgorkaTestProject
         }
 
         [TestMethod]
-        public void SupressMouseWheelTest()
+        public void SuppressMouseWheelTest()
         {
             var view = new Mock<IMainGameView>();
             var controller = new MainGameController(view.Object);
 
-            controller.IsShouldSupressMouseWheel().ShouldBe(true);
+            controller.IsShouldSuppressMouseWheel().ShouldBe(true);
         }
 
         [TestMethod]
-        public void SupressRightMouseClickTest()
+        public void SuppressRightMouseClickTest()
         {
             var view = new Mock<IMainGameView>();
             var controller = new MainGameController(view.Object);
 
-            controller.IsShouldSupressMouse(MouseButtons.Left).ShouldBe(false);
-            controller.IsShouldSupressMouse(MouseButtons.Middle).ShouldBe(false);
-            controller.IsShouldSupressMouse(MouseButtons.Right).ShouldBe(true);
-            controller.IsShouldSupressMouse(MouseButtons.Middle).ShouldBe(false);
-            controller.IsShouldSupressMouse(MouseButtons.None).ShouldBe(false);
-            controller.IsShouldSupressMouse(MouseButtons.XButton1).ShouldBe(false);
-            controller.IsShouldSupressMouse(MouseButtons.XButton2).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.Left).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.Middle).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.Right).ShouldBe(true);
+            controller.IsShouldSuppressMouse(MouseButtons.Middle).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.None).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.XButton1).ShouldBe(false);
+            controller.IsShouldSuppressMouse(MouseButtons.XButton2).ShouldBe(false);
         }
 
         [TestMethod]
-        public void SupressTaskManagerTest()
+        public void SuppressTaskManagerTest()
         {
             var view = new Mock<IMainGameView>();
             var controller = new MainGameController(view.Object);
 
-            controller.IsShouldSupressKey(Keys.Escape, true, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Escape, false, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Escape, true, false).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Escape, false, false).ShouldBe(false);
+            controller.IsShouldSuppressKey(Keys.Escape, true, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.Escape, false, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.Escape, true, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.Escape, false, false).ShouldBe(false);
         }
 
         [TestMethod]
-        public void SupressTaskSwitchTest()
+        public void SuppressTaskSwitchTest()
         {
             var view = new Mock<IMainGameView>();
             var controller = new MainGameController(view.Object);
 
-            controller.IsShouldSupressKey(Keys.Tab, true, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Tab, true, false).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.Tab, false, true).ShouldBe(false);
-            controller.IsShouldSupressKey(Keys.Tab, false, false).ShouldBe(false);
+            controller.IsShouldSuppressKey(Keys.Tab, true, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.Tab, true, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.Tab, false, true).ShouldBe(false);
+            controller.IsShouldSuppressKey(Keys.Tab, false, false).ShouldBe(false);
         }
 
         [TestMethod]
-        public void SupressWindowsKeyTest()
+        public void SuppressWindowsKeyTest()
         {
             var view = new Mock<IMainGameView>();
             var controller = new MainGameController(view.Object);
 
-            controller.IsShouldSupressKey(Keys.LWin, true, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.LWin, true, false).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.LWin, false, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.LWin, false, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.LWin, true, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.LWin, true, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.LWin, false, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.LWin, false, false).ShouldBe(true);
 
-            controller.IsShouldSupressKey(Keys.RWin, true, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.RWin, true, false).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.RWin, false, true).ShouldBe(true);
-            controller.IsShouldSupressKey(Keys.RWin, false, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.RWin, true, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.RWin, true, false).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.RWin, false, true).ShouldBe(true);
+            controller.IsShouldSuppressKey(Keys.RWin, false, false).ShouldBe(true);
         }
 
         #endregion
